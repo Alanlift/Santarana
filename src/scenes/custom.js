@@ -9,11 +9,13 @@ export class Custom extends Phaser.Scene {
 
     create() {
         // Boton para comenzar a jugar
-        const boton = new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.5,
-        this.cameras.main.centerY,
-              'Jugar', this, () => {
+        this.add.image(this.cameras.main.centerX,
+            this.cameras.main.centerY,
+                 'custom_bg').setScale(1.3);
+       const boton = new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.35,
+        this.cameras.main.centerY - this.cameras.main.centerY/12, '►', this, () => {
             // Instrucción para pasar a la escena Play
-            this.scene.start("Play");
+            this.scene.start("Ayuda");
         });
         
     }

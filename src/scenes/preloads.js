@@ -16,9 +16,9 @@ export class Preloads extends Phaser.Scene {
 
   create() {
     // Se agrega img de fondo
-    this.add.image(this.camera.main.centerX,
-      this.camera.centerY,
-       'carga_bg');
+    this.add.image(this.cameras.main.centerX,
+    this.cameras.main.centerY,
+       'carga_bg').setScale(1.4);
     // Se agrega un timer y luego a la escena del menú principal
     setTimeout(() => {
       this.scene.start("MainMenu");

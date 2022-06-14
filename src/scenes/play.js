@@ -12,6 +12,9 @@ export class Play extends Phaser.Scene {
   }
 
   create() {
+    this.add.image(this.cameras.main.centerX,
+      this.cameras.main.centerY,
+           'tablero_bg').setScale(1.2);
     const botonfin = new Button(
       this.cameras.main.centerX,
       this.cameras.main.centerY + this.cameras.main.centerY / 3,
@@ -23,9 +26,9 @@ export class Play extends Phaser.Scene {
       });
 
     const botonop = new Button(
-      this.cameras.main.centerX/3,
-      this.cameras.main.centerY - this.cameras.main.centerY/1.5,
-      "*",
+      this.cameras.main.centerX/8,
+      this.cameras.main.centerY - this.cameras.main.centerY/1.2,
+      "☸",
       this,
       () => {
         // Instrucción para pasar a la escena Salir
@@ -33,8 +36,8 @@ export class Play extends Phaser.Scene {
       });
 
       const botonay = new Button(
-        this.cameras.main.centerX + this.cameras.main.centerX/1.5,
-        this.cameras.main.centerY + this.cameras.main.centerY/1.5,
+        this.cameras.main.centerX + this.cameras.main.centerX/1.2,
+        this.cameras.main.centerY + this.cameras.main.centerY/1.2,
         "?",
         this,
         () => {
