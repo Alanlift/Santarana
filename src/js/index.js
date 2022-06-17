@@ -8,8 +8,8 @@ import { Salir } from "../scenes/salir.js";
 
 var config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width: 1400,
+  height: 800,
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
@@ -25,7 +25,7 @@ var config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 350 },
+      gravity: { y: 0 },
       debug: true,
     },
   },

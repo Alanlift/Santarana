@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "plataformas.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1411,
+				"h": 831
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "plataformas.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1409,
+						"h": 829
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1409,
+						"h": 829
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1409,
+						"h": 829
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:d139ae47fdb3de6d217773faeff0fd4d:2a69299d8f697041074c56e3a81e57bc:7c794a69cbbb758811844409019e4808$"
+	}
+}
