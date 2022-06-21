@@ -52,7 +52,7 @@ export class Play extends Phaser.Scene {
     // The player1 and its settings
     player1 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
     spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo2");
-    player2 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
+    player2 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo2");
     player1.setCollideWorldBounds(true);
     player2.setCollideWorldBounds(true);
     
@@ -156,6 +156,7 @@ export class Play extends Phaser.Scene {
             this.Dado2("40");
             gameOver = true;
           } else {
+            this.Dado2("  ")
             this.Dado2(proxcas);
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
             //player1.setPosition(casPoint.x+1, casPoint.y+1);
@@ -235,9 +236,9 @@ export class Play extends Phaser.Scene {
 
     //Textos
     JugadorTurno(Turno){
-      this.add.text(this.cameras.main.centerX*1.5, this.cameras.main.centerY*0.5, "Turno:" +"\n" + Turno)
+      this.add.text(this.cameras.main.centerX/1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.01, "Turno:" +"\n" + Turno)
       .setStyle({ 
-          backgroundColor: '#4a2f00', fontSize: '50px', 
+          backgroundColor: '#4a2f00', fontSize: '30px', 
           fill: '#6c4600', 
           fontFamily: 'Century Gothic'
       });
@@ -253,7 +254,7 @@ export class Play extends Phaser.Scene {
     }
 
     Dado2(DNum){
-      this.add.text(this.cameras.main.centerX, this.cameras.main.centerY-this.cameras.main.centerY/1.10, DNum)
+      this.add.text(this.cameras.main.centerX/10, this.cameras.main.centerY, DNum)
       .setStyle({ 
           backgroundColor: '#4a2f00', fontSize: '50px', 
           fill: '#6c4600', 

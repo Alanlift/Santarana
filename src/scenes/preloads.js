@@ -13,6 +13,7 @@ export class Preloads extends Phaser.Scene {
     //Por ahora dejamos custom de lado
     //this.load.image('custom_bg','public/assets/images/custom_bg.png');
     this.load.image('sapo','public/assets/images/sapojg1.png');
+    this.load.image('sapo2','public/assets/images/sapojg2.png');
     this.load.image('vacio','public/assets/images/casillerovacio.png') //Vacio tuki
     this.load.image('rojas','public/assets/images/casillerorojo.png')
     this.load.image('verdes','public/assets/images/casilleroverde.png')
