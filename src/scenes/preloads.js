@@ -14,6 +14,8 @@ export class Preloads extends Phaser.Scene {
     //this.load.image('custom_bg','public/assets/images/custom_bg.png');
     this.load.image('sapo','public/assets/images/sapojg1.png');
     this.load.image('rojas','public/assets/images/casillerorojo.png')
+    this.load.image('verdes','public/assets/images/casilleroverde.png')
+    this.load.image('amarillas','public/assets/images/casilleroamar.png')
     this.load.image('tablero_bg','public/assets/images/tablero_bg.png');
     this.load.image('ayuda_bg','public/assets/images/ayuda_bg.png');
   }

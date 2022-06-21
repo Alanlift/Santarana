@@ -4,6 +4,8 @@ var player;
 var proxcas = 0;
 var accas = 0;
 var CasRojas;
+var CasVerdes;
+var CasAmar;
 var score = 0;
 var scoreText;
 var XD;
@@ -46,14 +48,13 @@ export class Play extends Phaser.Scene {
     player = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
 
     player.setCollideWorldBounds(true);
-      
+    
+    //Parte físicas de casillas
     CasRojas = this.physics.add.group();
     objectsLayer.objects.forEach((objData) => {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasRojas": {
-          // add casilla to scene
-          // console.log("casilla agregada: ", x, y);
           var Rojas = CasRojas.create(x, y, "rojas");
           Rojas.setBounceY(0);
           break;
@@ -61,20 +62,51 @@ export class Play extends Phaser.Scene {
       }
     });
 
+    CasVerdes = this.physics.add.group();
+    objectsLayer.objects.forEach((objData) => {
+      const { x = 0, y = 0, name, type } = objData;
+      switch (name) {
+        case "CasVerdes": {
+          var Verde = CasVerdes.create(x, y, "verdes");
+          Verde.setBounceY(0);
+          break;
+        }
+      }
+    });
+
+    CasAmar = this.physics.add.group();
+    objectsLayer.objects.forEach((objData) => {
+      const { x = 0, y = 0, name, type } = objData;
+      switch (name) {
+        case "CasAmar": {
+          var Amar = CasAmar.create(x, y, "amarillas");
+          Amar.setBounceY(0);
+          break;
+        }
+      }
+    });
+
+    //Textou
     scoreText = this.add.text(30, 6, "Moscas: " + score, {
       fontSize: "32px",
       fill: "#000",
     });
 
+    //Agregamos collider con el tablero
     this.physics.add.collider(player, worldLayer);
     this.physics.add.collider(CasRojas, worldLayer);
-    
+    this.physics.add.collider(CasVerdes, worldLayer);
+    this.physics.add.collider(CasAmar, worldLayer);
+
+    //Agregamos overlap las casillas
     this.physics.add.overlap(player, CasRojas, this.roja, null, this);
+    this.physics.add.overlap(player, CasVerdes, this.verde, null, this);
+    this.physics.add.overlap(player, CasAmar, this.amarilla, null, this);
     
 
 
     
-    new Button( //Ayuda
+    new Button( //Lanzar Dado
       this.cameras.main.centerX,
       this.cameras.main.centerY + this.cameras.main.centerY / 1.2,
       "Lanzar Dado",
@@ -112,17 +144,18 @@ export class Play extends Phaser.Scene {
         accas = 0;
       });
 
-      new Button( //Ayuda
-        this.cameras.main.centerX + this.cameras.main.centerX/1.2,
-        this.cameras.main.centerY + this.cameras.main.centerY/1.2,
-        "?",
-        this,
-        () => {
-          // Instrucción para pasar a la escena ayuda
-          this.scene.start("Ayuda"), { score: score };
-        });
-        sonid4 = this.sound.add('dado');
-        gameOver = false;
+    new Button( //Ayuda
+      this.cameras.main.centerX + this.cameras.main.centerX/1.2,
+      this.cameras.main.centerY + this.cameras.main.centerY/1.2,
+       "?",
+      this,
+      () => {
+        // Instrucción para pasar a la escena ayuda
+        this.scene.switch("Ayuda"), { score: score };
+      });
+
+      sonid4 = this.sound.add('dado');
+      gameOver = false;
   }
 
   update() {
@@ -132,9 +165,25 @@ export class Play extends Phaser.Scene {
     }
   }
     //Funciones
-    roja(rojas){
+    roja(){
       if (XD == 1) {
         score += 10;
+        scoreText.setText("Moscas: " + score);
+        XD +=1;
+      }
+    }
+
+    verde(){
+      if (XD == 1) {
+        score += 5;
+        scoreText.setText("Moscas: " + score);
+        XD +=1;
+      }
+    }
+
+    amarilla(){
+      if (XD == 1) {
+        score -= 5;
         scoreText.setText("Moscas: " + score);
         XD +=1;
       }

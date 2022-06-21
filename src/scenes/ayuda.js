@@ -11,12 +11,12 @@ export class Ayuda extends Phaser.Scene {
         // Boton para volver a la escena de Play
         this.add.image(this.cameras.main.centerX,
             this.cameras.main.centerY,
-                 'ayuda_bg').setScale(1.4);
+                 'ayuda_bg').setScale(2);
         const boton = new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.2,
         this.cameras.main.centerY + this.cameras.main.centerY/1.2,
               '?', this, () => {
             // Instrucción volver a la escena Play
-            this.scene.start("Play"), { score: score };
+            this.scene.switch("Play"), { score: score };
         }); 
     }
 }
