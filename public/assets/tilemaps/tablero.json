@@ -543,6 +543,18 @@
          "objects":[
                 {
                  "height":0,
+                 "id":49,
+                 "name":"sapo3",
+                 "point":true,
+                 "rotation":0,
+                 "type":"sapo3",
+                 "visible":true,
+                 "width":0,
+                 "x":61.8020727494412,
+                 "y":523.028652712863
+                }, 
+                {
+                 "height":0,
                  "id":47,
                  "name":"sapo2",
                  "point":true,
@@ -550,8 +562,8 @@
                  "type":"sapo2",
                  "visible":true,
                  "width":0,
-                 "x":40.0568990042674,
-                 "y":637.476935582199
+                 "x":65.2355212355212,
+                 "y":611.153830522252
                 }, 
                 {
                  "height":0,
@@ -562,8 +574,8 @@
                  "type":"sapo1",
                  "visible":true,
                  "width":0,
-                 "x":70.957935378988,
-                 "y":725.602113391587
+                 "x":65.2355212355212,
+                 "y":702.71245681772
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -572,7 +584,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":49,
+ "nextobjectid":50,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",
