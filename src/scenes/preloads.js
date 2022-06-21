@@ -13,10 +13,12 @@ export class Preloads extends Phaser.Scene {
     //Por ahora dejamos custom de lado
     //this.load.image('custom_bg','public/assets/images/custom_bg.png');
     this.load.image('sapo','public/assets/images/sapojg1.png');
+    this.load.image('vacio','public/assets/images/casillerovacio.png') //Vacio tuki
     this.load.image('rojas','public/assets/images/casillerorojo.png')
     this.load.image('verdes','public/assets/images/casilleroverde.png')
     this.load.image('amarillas','public/assets/images/casilleroamar.png')
     this.load.image('tablero_bg','public/assets/images/tablero_bg.png');
+    this.load.image('tablero_blur','public/assets/images/tablero_blur.png');
     this.load.image('ayuda_bg','public/assets/images/ayuda_bg.png');
   }
 
@@ -27,7 +29,7 @@ export class Preloads extends Phaser.Scene {
        'carga_bg').setScale(2);
     // Se agrega un timer y luego a la escena del menú principal
     //setTimeout(() => {
-      this.scene.start("Play");
+      this.scene.start("MainMenu");
       //Lleva a mainmenu this.scene.start("MainMenu");
     //}, 1500);
   }

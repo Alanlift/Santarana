@@ -1,12 +1,17 @@
 import Button from "../js/button.js";
+import ButtonFont from "../js/buttonfont.js";
 //Variables de la escena
-var player;
-var proxcas = 0;
-var accas = 0;
+var player1;
+var player2;
+var JTurno;
+var proxcas;
+var proxcasjg1;
+var proxcasjg2;
+//var accas = 0;
 var CasRojas;
 var CasVerdes;
 var CasAmar;
-var score = 0;
+var score;
 var scoreText;
 var XD;
 var sonid4;
@@ -43,11 +48,13 @@ export class Play extends Phaser.Scene {
 
     //worldLayer.setCollisionByProperty({ collides: true });
 
-    const spawnPoint = tablero.findObject("Objetos", (obj) => obj.name === "sapo");
-    // The player and its settings
-    player = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
-
-    player.setCollideWorldBounds(true);
+    var spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo1");
+    // The player1 and its settings
+    player1 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
+    spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo2");
+    player2 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
+    player1.setCollideWorldBounds(true);
+    player2.setCollideWorldBounds(true);
     
     //Parte físicas de casillas
     CasRojas = this.physics.add.group();
@@ -55,8 +62,9 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasRojas": {
-          var Rojas = CasRojas.create(x, y, "rojas");
+          var Rojas = CasRojas.create(x, y, "vacio");
           Rojas.setBounceY(0);
+          Rojas.set
           break;
         }
       }
@@ -67,7 +75,7 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasVerdes": {
-          var Verde = CasVerdes.create(x, y, "verdes");
+          var Verde = CasVerdes.create(x, y, "vacio");
           Verde.setBounceY(0);
           break;
         }
@@ -79,7 +87,7 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasAmar": {
-          var Amar = CasAmar.create(x, y, "amarillas");
+          var Amar = CasAmar.create(x, y, "vacio");
           Amar.setBounceY(0);
           break;
         }
@@ -87,26 +95,36 @@ export class Play extends Phaser.Scene {
     });
 
     //Textou
-    scoreText = this.add.text(30, 6, "Moscas: " + score, {
+    score = 0;
+    scoreText = this.add.text(this.cameras.main.centerX*1.80, this.cameras.main.centerY, "🦟: " + score, {
       fontSize: "32px",
-      fill: "#000",
+      fill: "#fff",
+      stroke: '#000',
+      strokeThickness: 1,
     });
 
     //Agregamos collider con el tablero
-    this.physics.add.collider(player, worldLayer);
+    this.physics.add.collider(player1, worldLayer);
+    this.physics.add.collider(player2, worldLayer);
     this.physics.add.collider(CasRojas, worldLayer);
     this.physics.add.collider(CasVerdes, worldLayer);
     this.physics.add.collider(CasAmar, worldLayer);
 
     //Agregamos overlap las casillas
-    this.physics.add.overlap(player, CasRojas, this.roja, null, this);
-    this.physics.add.overlap(player, CasVerdes, this.verde, null, this);
-    this.physics.add.overlap(player, CasAmar, this.amarilla, null, this);
+    this.physics.add.overlap(player1, CasRojas, this.roja, null, this);
+    this.physics.add.overlap(player1, CasVerdes, this.verde, null, this);
+    this.physics.add.overlap(player1, CasAmar, this.amarilla, null, this);
+    this.physics.add.overlap(player2, CasRojas, this.roja, null, this);
+    this.physics.add.overlap(player2, CasVerdes, this.verde, null, this);
+    this.physics.add.overlap(player2, CasAmar, this.amarilla, null, this);
     
 
 
-    
-    new Button( //Lanzar Dado
+    JTurno = player1;
+    proxcas = 0;
+    proxcasjg1 = 0;
+    proxcasjg2 = 0;
+    new ButtonFont( //Lanzar Dado
       this.cameras.main.centerX,
       this.cameras.main.centerY + this.cameras.main.centerY / 1.2,
       "Lanzar Dado",
@@ -116,32 +134,44 @@ export class Play extends Phaser.Scene {
           sonid4.play();
           var randomNumber = Math.floor(Math.random()*4) + 1;
           this.Dado(randomNumber);
-          proxcas += randomNumber;
+          if (JTurno === player1) {
+            this.JugadorTurno("Jugador 1");
+            proxcasjg1 += randomNumber;
+            proxcas = proxcasjg1;
+          } else {
+            this.JugadorTurno("Jugador 2");
+            proxcasjg2 += randomNumber;
+            proxcas = proxcasjg2;
+          }
           
           if (proxcas>=40) {
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "40");
-            player.setPosition(casPoint.x+1, casPoint.y+1);
-            this.Dado("GANASTE PAPU!");
+            //player1.setPosition(casPoint.x+1, casPoint.y+1);
+            JTurno.setPosition(casPoint.x+1, casPoint.y+1)
+            if (JTurno === player1) {
+              this.Dado("GANASTE "+ "Jugador 1");;
+            } else {
+              this.Dado("GANASTE "+ "Jugador 2");
+            }
             this.Dado2("40");
             gameOver = true;
           } else {
             this.Dado2(proxcas);
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
-            player.setPosition(casPoint.x+1, casPoint.y+1);
+            //player1.setPosition(casPoint.x+1, casPoint.y+1);
+            JTurno.setPosition(casPoint.x+1, casPoint.y+1)
+            this.turno();
           }
-          accas = proxcas;
       });
 
-    new Button( //Opciones
+    new ButtonFont( //Opciones
       this.cameras.main.centerX/8,
       this.cameras.main.centerY - this.cameras.main.centerY/1.2,
-      "☸",
+      "Salir",
       this,
       () => {
         // Instrucción para pasar a la escena opcion
-        //this.scene.start("Opcion");
-        proxcas = 0;
-        accas = 0;
+        this.scene.switch("Opcion");
       });
 
     new Button( //Ayuda
@@ -168,7 +198,7 @@ export class Play extends Phaser.Scene {
     roja(){
       if (XD == 1) {
         score += 10;
-        scoreText.setText("Moscas: " + score);
+        scoreText.setText("🦟: " + score);
         XD +=1;
       }
     }
@@ -176,16 +206,25 @@ export class Play extends Phaser.Scene {
     verde(){
       if (XD == 1) {
         score += 5;
-        scoreText.setText("Moscas: " + score);
+        scoreText.setText("🦟: " + score);
         XD +=1;
       }
     }
 
     amarilla(){
       if (XD == 1) {
-        score -= 5;
-        scoreText.setText("Moscas: " + score);
+        score -= 10;
+        scoreText.setText("🦟: " + score);
         XD +=1;
+      }
+    }
+
+    turno(){
+      if (JTurno === player1) {
+        JTurno = player2;
+        
+      } else {
+        JTurno = player1;
       }
     }
 
@@ -193,6 +232,17 @@ export class Play extends Phaser.Scene {
       var randomNumber = Math.floor(Math.random()*4) + 1;
       return randomNumber;
     }
+
+    //Textos
+    JugadorTurno(Turno){
+      this.add.text(this.cameras.main.centerX*1.5, this.cameras.main.centerY*0.5, "Turno:" +"\n" + Turno)
+      .setStyle({ 
+          backgroundColor: '#4a2f00', fontSize: '50px', 
+          fill: '#6c4600', 
+          fontFamily: 'Century Gothic'
+      });
+    }
+
     Dado(DNum){
       this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, DNum)
       .setStyle({ 
@@ -200,8 +250,8 @@ export class Play extends Phaser.Scene {
           fill: '#6c4600', 
           fontFamily: 'Century Gothic'
       });
-      //return DNum;
     }
+
     Dado2(DNum){
       this.add.text(this.cameras.main.centerX, this.cameras.main.centerY-this.cameras.main.centerY/1.10, DNum)
       .setStyle({ 
@@ -209,6 +259,5 @@ export class Play extends Phaser.Scene {
           fill: '#6c4600', 
           fontFamily: 'Century Gothic'
       });
-      //return DNum;
     }
 }

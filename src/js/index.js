@@ -26,7 +26,7 @@ var config = {
     default: "arcade",
     arcade: {
       gravity: { y: 0 },
-      debug: true,
+      debug: false,
     },
   },
   scene: [Preloads, MainMenu, Custom, Play, Opcion, Ayuda, Salir], // Listado de todas las escenas del juego, en orden

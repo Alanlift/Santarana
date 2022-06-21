@@ -1,12 +1,12 @@
 // Clase Boton, para no repetir tanto codigo
-class Button {
+class ButtonFont {
     constructor(x, y, label, scene, callback) {
         const button = scene.add.text(x, y, label)
             .setOrigin(0.5)
             .setPadding(10)
             .setStyle({ 
                 backgroundColor: '#4a2f00', 
-                fontSize: '90px', 
+                fontSize: '50px', 
                 fill: '#6c4600', 
                 fontFamily: 'Century Gothic'
             })
@@ -17,4 +17,4 @@ class Button {
     }
 }
 
-export default Button;
+export default ButtonFont;
