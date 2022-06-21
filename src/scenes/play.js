@@ -1,8 +1,14 @@
 import Button from "../js/button.js";
 //Variables de la escena
 var player;
-var proxcas = 1;
-var accas = 1;
+var proxcas = 0;
+var accas = 0;
+var CasRojas;
+var score = 0;
+var scoreText;
+var XD;
+var sonid4;
+var gameOver;
 
 // Clase Play, donde se crean todos los sprites, el escenario del juego y se inicializa y actualiza toda la logica del juego.
 export class Play extends Phaser.Scene {
@@ -15,91 +21,86 @@ export class Play extends Phaser.Scene {
   preload() {
       this.load.tilemapTiledJSON("tablero", "public/assets/tilemaps/tablero.json");
       this.load.image("tilesBelow", "public/assets/images/tablero_bg.png");
-      this.load.image("tilesPlatform", "public/assets/images/platformas.png");
+      //this.load.image("tilesPlatform", "public/assets/images/platformas.png");
   }
 
   create() {
-    const tablero = this.make.tilemap({ key: "tablero"});
-
+    const tablero = this.make.tilemap({ key: "tablero"}); 
     const tilesetBelow = tablero.addTilesetImage(
       "tablero_bg",
       "tilesBelow"
     );
-    const tilesetPlatform = tablero.addTilesetImage(
-      "plataformas",
-      "tilesPlatform"
-    );
+    //const tilesetPlatform = tablero.addTilesetImage(
+      //"plataformas",
+      //"tilesPlatform"
+    //);
 
-    const belowLayer = tablero.createLayer("Fondo", tilesetBelow, 0, 0);
-    const worldLayer = tablero.createLayer("CasillaRoja", tilesetPlatform, 0, 0);
+    const worldLayer = tablero.createLayer("Fondo", tilesetBelow, 0, 0);
+    //const worldLayer = tablero.createLayer("CasillaRoja", tilesetPlatform, 0, 0);
     const objectsLayer = tablero.getObjectLayer("Objetos");
 
-    worldLayer.setCollisionByProperty({ collides: true });
+    //worldLayer.setCollisionByProperty({ collides: true });
 
     const spawnPoint = tablero.findObject("Objetos", (obj) => obj.name === "sapo");
     // The player and its settings
     player = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
 
-    //player.setBounce(0.2);
     player.setCollideWorldBounds(true);
+      
+    CasRojas = this.physics.add.group();
+    objectsLayer.objects.forEach((objData) => {
+      const { x = 0, y = 0, name, type } = objData;
+      switch (name) {
+        case "CasRojas": {
+          // add casilla to scene
+          // console.log("casilla agregada: ", x, y);
+          var Rojas = CasRojas.create(x, y, "rojas");
+          Rojas.setBounceY(0);
+          break;
+        }
+      }
+    });
+
+    scoreText = this.add.text(30, 6, "Moscas: " + score, {
+      fontSize: "32px",
+      fill: "#000",
+    });
 
     this.physics.add.collider(player, worldLayer);
-    this.physics.add.overlap(player, worldLayer, this.roja, null, this);
+    this.physics.add.collider(CasRojas, worldLayer);
+    
+    this.physics.add.overlap(player, CasRojas, this.roja, null, this);
+    
 
 
-    const botonfin = new Button(
+    
+    new Button( //Ayuda
       this.cameras.main.centerX,
       this.cameras.main.centerY + this.cameras.main.centerY / 1.2,
       "Lanzar Dado",
       this,
       () => {
-        var randomNumber = Math.floor(Math.random()*4) + 1;
-        this.Dado(randomNumber);
-        proxcas += randomNumber;
-        this.Dado2(proxcas);
-        if (proxcas<10) {
-          player.setVelocityX(this.cameras.main.centerX/2.8);
-          setTimeout(() => {
-            player.setVelocityX(0);
-          }, randomNumber*500);
-        } else if (accas<=9 && proxcas>9) { //CASILLAS 9
-          player.setVelocityX(this.cameras.main.centerX/2.8);
-          setTimeout(() => {
-            player.setVelocityX(0);
-          }, (9-accas)*(500)+1);
-          setTimeout(() => {
-          }, 500);
-          player.setVelocityY(-(this.cameras.main.centerX/3.2));
-          setTimeout(() => {
-            player.setVelocityY(0);
-          }, (proxcas-9)*(500)+1);
-        } else if(accas<=14 && proxcas>14) { //CASILLAS 14
-          player.setVelocityY(-(this.cameras.main.centerX/3.2));
-          setTimeout(() => {
-            player.setVelocityY(0);
-          }, (14-accas)*(500)+1);
-          setTimeout(() => {
-          }, 500);
-          player.setVelocityX(-this.cameras.main.centerX/2.8);
-          setTimeout(() => {
-            player.setVelocityX(0);
-          }, (proxcas-14)*(500)+1);
-        }
-        else if (proxcas>10 && proxcas<15) {
-          player.setVelocityY(-(this.cameras.main.centerX/3.2));
-          setTimeout(() => {
-            player.setVelocityY(0);
-          }, randomNumber*500);
-        } else {
-          player.setVelocityX(-this.cameras.main.centerX/2.8);
-          setTimeout(() => {
-            player.setVelocityX(0);
-          }, randomNumber*500);
-        }
-        accas = proxcas;
+          XD = 1;
+          sonid4.play();
+          var randomNumber = Math.floor(Math.random()*4) + 1;
+          this.Dado(randomNumber);
+          proxcas += randomNumber;
+          
+          if (proxcas>=40) {
+            var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "40");
+            player.setPosition(casPoint.x+1, casPoint.y+1);
+            this.Dado("GANASTE PAPU!");
+            this.Dado2("40");
+            gameOver = true;
+          } else {
+            this.Dado2(proxcas);
+            var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
+            player.setPosition(casPoint.x+1, casPoint.y+1);
+          }
+          accas = proxcas;
       });
 
-    const botonop = new Button(
+    new Button( //Opciones
       this.cameras.main.centerX/8,
       this.cameras.main.centerY - this.cameras.main.centerY/1.2,
       "☸",
@@ -107,27 +108,38 @@ export class Play extends Phaser.Scene {
       () => {
         // Instrucción para pasar a la escena opcion
         //this.scene.start("Opcion");
-        proxcas = 1;
-        accas = 1;
+        proxcas = 0;
+        accas = 0;
       });
 
-      const botonay = new Button(
+      new Button( //Ayuda
         this.cameras.main.centerX + this.cameras.main.centerX/1.2,
         this.cameras.main.centerY + this.cameras.main.centerY/1.2,
         "?",
         this,
         () => {
           // Instrucción para pasar a la escena ayuda
-          this.scene.start("Ayuda");
+          this.scene.start("Ayuda"), { score: score };
         });
+        sonid4 = this.sound.add('dado');
+        gameOver = false;
   }
 
   update() {
-    
-  }
-    roja(){
-      player.setBounce(0)
+    if (gameOver) {
+      this.sound.stopAll();
+      return;
     }
+  }
+    //Funciones
+    roja(rojas){
+      if (XD == 1) {
+        score += 10;
+        scoreText.setText("Moscas: " + score);
+        XD +=1;
+      }
+    }
+
     D4(){
       var randomNumber = Math.floor(Math.random()*4) + 1;
       return randomNumber;
@@ -139,7 +151,7 @@ export class Play extends Phaser.Scene {
           fill: '#6c4600', 
           fontFamily: 'Century Gothic'
       });
-      return DNum;
+      //return DNum;
     }
     Dado2(DNum){
       this.add.text(this.cameras.main.centerX, this.cameras.main.centerY-this.cameras.main.centerY/1.10, DNum)
@@ -148,6 +160,6 @@ export class Play extends Phaser.Scene {
           fill: '#6c4600', 
           fontFamily: 'Century Gothic'
       });
-      return DNum;
+      //return DNum;
     }
 }

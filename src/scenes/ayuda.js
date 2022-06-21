@@ -1,5 +1,5 @@
 import Button from "../js/button.js";
-
+var score;
 // Clase Ayuda, donde se cambia el idioma del juego
 export class Ayuda extends Phaser.Scene {
     constructor() {
@@ -16,7 +16,7 @@ export class Ayuda extends Phaser.Scene {
         this.cameras.main.centerY + this.cameras.main.centerY/1.2,
               '?', this, () => {
             // Instrucción volver a la escena Play
-            this.scene.start("Play");
+            this.scene.start("Play"), { score: score };
         }); 
     }
 }

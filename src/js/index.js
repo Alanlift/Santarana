@@ -14,12 +14,12 @@ var config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     min: {
-      width: 800,
-      height: 600,
+      width: 1024,
+      height: 576,
     },
     max: {
-      width: 1600,
-      height: 1200,
+      width: 1920,
+      height: 1080,
     },
   },
   physics: {
