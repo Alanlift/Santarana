@@ -4,21 +4,24 @@ import ButtonFont from "../js/buttonfont.js";
 var player1;
 var player2;
 var player3;
-var JTurno;
+var JTurno; //Para que funcione el movimiento
+var CTurno; //Para que funcione el score
 var proxcas;
 var proxcasjg1;
 var proxcasjg2;
 var proxcasjg3;
-//var accas = 0;
 var CasRojas;
 var CasVerdes;
 var CasAmar;
+//Scores
 var scorejg1;
 var scorejg2;
 var scorejg3;
+var lanzartext;
 var scoretext;
+var scoreac;
 var XD;
-var sonid4;
+var sonid4; //Sonido dado d4
 var gameOver;
 
 // Clase Play, donde se crean todos los sprites, el escenario del juego y se inicializa y actualiza toda la logica del juego.
@@ -62,6 +65,8 @@ export class Play extends Phaser.Scene {
     player1.setCollideWorldBounds(true);
     player2.setCollideWorldBounds(true);
     player3.setCollideWorldBounds(true);
+    var Players = [player1, player2, player3];
+    
     
     //Parte físicas de casillas
     CasRojas = this.physics.add.group();
@@ -101,29 +106,17 @@ export class Play extends Phaser.Scene {
       }
     });
 
-    //Textou
-    scorejg1 = 0;
-    scorejg2 = 0;
-    scorejg3 = 0;
-    scoretext = this.add.text(this.cameras.main.centerX*1.80, this.cameras.main.centerY, "🦟: " + scorejg1, {
-      fontSize: "32px",
-      fill: "#fff",
-      stroke: '#000',
-      strokeThickness: 1,
-    });
 
     //Agregamos collider con el tablero
-    this.physics.add.collider(player1, worldLayer);
-    this.physics.add.collider(player2, worldLayer);
-    this.physics.add.collider(player3, worldLayer);
+    this.physics.add.collider(Players, worldLayer);
     this.physics.add.collider(CasRojas, worldLayer);
     this.physics.add.collider(CasVerdes, worldLayer);
     this.physics.add.collider(CasAmar, worldLayer);
 
     //Agregamos overlap las casillas
-    this.physics.add.overlap(player1, CasRojas, this.roja, null, this);
-    this.physics.add.overlap(player1, CasVerdes, this.verde, null, this);
-    this.physics.add.overlap(player1, CasAmar, this.amarilla, null, this);
+    this.physics.add.overlap(Players, CasRojas, this.roja, null, this);
+    this.physics.add.overlap(Players, CasVerdes, this.verde, null, this);
+    this.physics.add.overlap(Players, CasAmar, this.amarilla, null, this);
     this.physics.add.overlap(player2, CasRojas, this.roja, null, this);
     this.physics.add.overlap(player2, CasVerdes, this.verde, null, this);
     this.physics.add.overlap(player2, CasAmar, this.amarilla, null, this);
@@ -132,44 +125,46 @@ export class Play extends Phaser.Scene {
     this.physics.add.overlap(player3, CasAmar, this.amarilla, null, this);
     
 
-
-    JTurno = player1;
+    JTurno = 0;
+    CTurno = 'Jugador 1';
     proxcas = 0;
     proxcasjg1 = 0;
     proxcasjg2 = 0;
-    proxcasjg3 = 3;
-    const BotonDado = new ButtonFont( //Lanzar Dado
-      this.cameras.main.centerX,
-      this.cameras.main.centerY + this.cameras.main.centerY / 1.2,
-      "Lanzar Dado",
+    proxcasjg3 = 0;
+    this.JugadorTurno("Jugador 1");
+
+    spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Dado'));
+    const BotonDado = new Button( //Lanzar Dado
+      spawnPoint.x,
+      spawnPoint.y,
+      "dadoicon",
       this,
       () => {
-          XD = 1;
           sonid4.play();
           var randomNumber = Math.floor(Math.random()*4) + 1;
           this.Dado(randomNumber);
-          if (JTurno === player1) {
-            this.JugadorTurno("Jugador 1");
+          if (JTurno == '0') {
+            this.JugadorTurno("Jugador 2");
             proxcasjg1 += randomNumber;
             proxcas = proxcasjg1;
-          } else if (JTurno === player2) {
-            this.JugadorTurno("Jugador 2");
+          } else if (JTurno == '1') {
+            this.JugadorTurno("Jugador 3");
             proxcasjg2 += randomNumber;
             proxcas = proxcasjg2;
           } else {
-            this.JugadorTurno("Jugador 3");
+            this.JugadorTurno("Jugador 1");
             proxcasjg3 += randomNumber;
             proxcas = proxcasjg3;
           }
           
           if (proxcas>=40) {
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "40");
-            //player1.setPosition(casPoint.x+1, casPoint.y+1);
-            JTurno.setPosition(casPoint.x+1, casPoint.y+1)
-            BotonDado.disable = true;
-            if (JTurno === player1) {
+            Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
+            BotonDado.inputEnabled = false;
+            BotonSalto.inputEnabled = false;
+            if (JTurno == '0') {
               this.Dado("GANASTE "+ "Jugador 1");;
-            } else if (JTurno === player2){
+            } else if (JTurno == '1'){
               this.Dado("GANASTE "+ "Jugador 2");
             } else {
               this.Dado("GANASTE "+ "Jugador 3")
@@ -177,14 +172,87 @@ export class Play extends Phaser.Scene {
             this.Dado2("40");
             gameOver = true;
           } else {
-            this.Dado2("⠀⠀")
-            this.Dado2(proxcas);
+            XD = 1;
+            console.log(XD);
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
-            //player1.setPosition(casPoint.x+1, casPoint.y+1);
-            JTurno.setPosition(casPoint.x+1, casPoint.y+1)
-            this.turno();
+            Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
           }
       });
+      
+      spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Saltote'));
+      const BotonSalto = new Button( //Lanzar saltote
+      spawnPoint.x,
+      spawnPoint.y,
+      'saltote',
+      this,
+      () => {
+          
+          if (scoreac>=20 && proxcas+8<41){
+            BotonSalto.inputEnabled = true;
+            sonid4.play();
+            if (proxcas+8>=40) {
+              var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "40");
+              Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
+              BotonDado.inputEnabled = false;
+              BotonSalto.inputEnabled = false;
+              if (JTurno == '0') {
+                this.Dado("GANASTE "+ "Jugador 1");;
+              } else if (JTurno == '1'){
+                this.Dado("GANASTE "+ "Jugador 2");
+              } else {
+                this.Dado("GANASTE "+ "Jugador 3")
+              }
+              this.Dado2("40");
+              gameOver = true;
+            }
+            else {
+              if (JTurno == '0') {
+              this.JugadorTurno("Jugador 2");
+              proxcasjg1 += 8;
+              proxcas = proxcasjg1;
+              scorejg1-=20;
+            } else if (JTurno == '1') {
+              this.JugadorTurno("Jugador 3");
+              proxcasjg2 += 8;
+              proxcas = proxcasjg2;
+              scorejg1-=20;
+            } else {
+              this.JugadorTurno("Jugador 1");
+              proxcasjg3 += 8;
+              proxcas = proxcasjg3;
+              scorejg3-=20;
+            }
+            var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
+            Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
+            this.turno();}
+            
+          } else {
+            BotonSalto.inputEnabled = false;
+          }
+          
+        });
+
+      scorejg1 = 0;
+      scorejg2 = 0;
+      scorejg3 = 0;
+      scoreac = 0;
+      spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Score'));
+      scoretext = this.add.text(spawnPoint.x, spawnPoint.y,"🦟 ", { //Texto Score
+        fontSize: "32px",
+        fill: "#000000",
+        backgroundColor: '#71af45',
+        fontFamily: 'Arial'
+      });
+      
+      spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Lanzar'));
+      lanzartext = this.add.text(spawnPoint.x, spawnPoint.y, "LANZAR", { //Texto Lanzar
+        fontSize: "32px",
+        fill: "#000000",
+        backgroundColor: '#71af45',
+        fontFamily: 'Arial'
+      });
+
+
 
     new ButtonFont( //Opciones
       this.cameras.main.centerX/8,
@@ -199,11 +267,11 @@ export class Play extends Phaser.Scene {
     new Button( //Ayuda
       this.cameras.main.centerX + this.cameras.main.centerX/1.2,
       this.cameras.main.centerY + this.cameras.main.centerY/1.2,
-       "?",
+       "ayuda",
       this,
       () => {
         // Instrucción para pasar a la escena ayuda
-        this.scene.switch("Ayuda"), { scorejg1: scorejg1 };
+        this.scene.switch("Ayuda");
       });
 
       sonid4 = this.sound.add('dado');
@@ -217,100 +285,112 @@ export class Play extends Phaser.Scene {
     }
   }
     //Funciones
-    roja(){
+    roja(Rojas){
+      Rojas.active = false;
       if (XD == 1) {
-        if (JTurno === player1) {
+        if (CTurno == 'Jugador 1') {
           scorejg1 += 10;
-          scoretext.setText("🦟: " + scorejg1);
+          scoreac = scorejg2;
           XD +=1;
-        } else if (JTurno === player2) {
+          console.log('Rojo 1');
+        } else if (CTurno == 'Jugador 2') {
           scorejg2 += 10;
-          scoretext.setText("🦟: " + scorejg2);
+          scoreac = scorejg3;
           XD +=1;
-        } else if (JTurno === player3){
+          console.log('Rojo 2');
+        } else if (CTurno == 'Jugador 3'){
           scorejg3 += 10;
-          scoretext.setText("🦟: " + scorejg3);
+          scoreac = scorejg1;
           XD +=1;
+          console.log('Rojo 3');
         }
+        console.log(scoreac)
+        this.turno();
+        scoretext.setText("🦟 " + scoreac);
       }
     }
 
-    verde(){
+    verde(Verde){
+      Verde.active = false;
       if (XD == 1) {
-        if (JTurno === player1) {
+        scoretext.setText("⠀⠀⠀⠀⠀⠀"+ "\n" + "⠀⠀⠀⠀⠀⠀");
+        if (CTurno == 'Jugador 1') {
           scorejg1 += 5;
-          scoretext.setText("🦟: " + scorejg1);
+          scoreac = scorejg2;
           XD +=1;
-        } else if (JTurno === player2) {
+          console.log('V 1');
+        } else if (CTurno == 'Jugador 2') {
           scorejg2 += 5;
-          scoretext.setText("🦟: " + scorejg2);
+          scoreac = scorejg3;
           XD +=1;
-        } else if (JTurno === player3){
+          console.log('V 2');
+        } else if (CTurno == 'Jugador 3'){
           scorejg3 += 5;
-          scoretext.setText("🦟: " + scorejg3);
+          scoreac = scorejg1;
           XD +=1;
+          console.log('V 3');
         }
+        console.log(scoreac);
+        this.turno();
+        scoretext.setText("🦟 " + scoreac);
       }
     }
 
-    amarilla(){
+    amarilla(Amar){
+      Amar.active = false;
       if (XD == 1) {
-        if (JTurno === player1) {
+        scoretext.setText("⠀⠀⠀⠀⠀⠀"+ "\n" + "⠀⠀⠀⠀⠀⠀");
+        if (CTurno == 'Jugador 1') {
           scorejg1 -= 10;
-          scoretext.setText("🦟: " + scorejg1);
+          scoreac = scorejg2;
           XD +=1;
-        } else if (JTurno === player2) {
+          console.log('A 1');
+        } else if (CTurno == 'Jugador 2') {
           scorejg2 -= 10;
-          scoretext.setText("🦟: " + scorejg2);
+          scoreac = scorejg3;
           XD +=1;
-        } else if (JTurno === player3){
+          console.log('A 2');
+        } else if (CTurno == 'Jugador 3'){
           scorejg3 -= 10;
-          scoretext.setText("🦟: " + scorejg3);
+          scoreac = scorejg1;
           XD +=1;
+          console.log('A 3');
         }
+        console.log(scoreac);
+        this.turno();
+        scoretext.setText("🦟 " + scoreac);
       }
     }
 
     turno(){
-      if (JTurno === player1) {
-        JTurno = player2;
-      } else if (JTurno === player2) {
-        JTurno = player3;
-      } else if (JTurno === player3){
-        JTurno = player1;
+      if (JTurno == '0') {
+        JTurno = '1';
+        CTurno = 'Jugador 2';
+      } else if (JTurno == '1') {
+        JTurno = '2';
+        CTurno = 'Jugador 3';
+      } else if (JTurno == '2'){
+        JTurno = '0';
+        CTurno = 'Jugador 1';
       }
-    }
-
-    D4(){
-      var randomNumber = Math.floor(Math.random()*4) + 1;
-      return randomNumber;
     }
 
     //Textos
     JugadorTurno(Turno){
       this.add.text(this.cameras.main.centerX/1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.01, "Turno:" +"\n" + Turno)
       .setStyle({ 
-          backgroundColor: '#4a2f00', fontSize: '30px', 
-          fill: '#6c4600', 
-          fontFamily: 'Century Gothic'
+          backgroundColor: '#71af45', fontSize: '35px', 
+          fill: '#000000', 
+          fontFamily: 'Arial'
       });
     }
 
     Dado(DNum){
       this.add.text(this.cameras.main.centerX, this.cameras.main.centerY, DNum)
       .setStyle({ 
-          backgroundColor: '#4a2f00', fontSize: '50px', 
-          fill: '#6c4600', 
-          fontFamily: 'Century Gothic'
-      });
-    }
-
-    Dado2(DNum){
-      this.add.text(this.cameras.main.centerX/10, this.cameras.main.centerY, DNum)
-      .setStyle({ 
-          backgroundColor: '#4a2f00', fontSize: '50px', 
-          fill: '#6c4600', 
-          fontFamily: 'Century Gothic'
+          backgroundColor: '#71af45', fontSize: '50px', 
+          fill: '#000000', 
+          fontFamily: 'Arial'
       });
     }
 }

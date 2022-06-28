@@ -14,7 +14,7 @@ export class Ayuda extends Phaser.Scene {
                  'ayuda_bg').setScale(2);
         const boton = new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.2,
         this.cameras.main.centerY + this.cameras.main.centerY/1.2,
-              '?', this, () => {
+              'ayuda', this, () => {
             // Instrucción volver a la escena Play
             this.scene.switch("Play"), { score: score };
         }); 

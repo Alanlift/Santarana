@@ -12,8 +12,19 @@ export class MainMenu extends Phaser.Scene {
         this.add.image(this.cameras.main.centerX,
         this.cameras.main.centerY,
              'menu_bg').setScale(1);
-        new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.38, //Boton Play
-             this.cameras.main.centerY - this.cameras.main.centerY/8, '►', this, () => {
+        new Button(this.cameras.main.centerX - this.cameras.main.centerX/1.7, //Boton Config
+             this.cameras.main.centerY + this.cameras.main.centerY/3, 'config', this,
+              () => {
+            // Instrucción para pasar a la escena Custom
+            this.scene.start("Play");
+        });
+        new Button(this.cameras.main.centerX/1.05, //Boton Play
+             this.cameras.main.centerY + this.cameras.main.centerY/6, 'play', this, () => {
+            // Instrucción para pasar a la escena Custom
+            this.scene.start("Play");
+        });
+        new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.7, //Boton Creditos
+            this.cameras.main.centerY + this.cameras.main.centerY/3, 'credit', this, () => {
             // Instrucción para pasar a la escena Custom
             this.scene.start("Play");
         });
