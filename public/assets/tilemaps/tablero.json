@@ -621,8 +621,8 @@
                  "type":"boton",
                  "visible":true,
                  "width":0,
-                 "x":1284,
-                 "y":76
+                 "x":1272,
+                 "y":62
                 }, 
                 {
                  "height":0,
@@ -647,6 +647,18 @@
                  "width":0,
                  "x":1336,
                  "y":408
+                }, 
+                {
+                 "height":0,
+                 "id":55,
+                 "name":"Ayuda",
+                 "point":true,
+                 "rotation":0,
+                 "type":"boton",
+                 "visible":true,
+                 "width":0,
+                 "x":1328,
+                 "y":746
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -655,7 +667,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":55,
+ "nextobjectid":56,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.8.5",

@@ -1,10 +1,9 @@
 import { Preloads } from "../scenes/preloads.js";
 import { MainMenu } from "../scenes/mainmenu.js";
-import { Custom } from "../scenes/custom.js";
+import { Creditos } from "../scenes/creditos.js";
 import { Play } from "../scenes/play.js";
 import { Ayuda } from "../scenes/ayuda.js";
 import { Opcion } from "../scenes/opcion.js";
-import { Salir } from "../scenes/salir.js";
 
 var config = {
   type: Phaser.AUTO,
@@ -29,7 +28,7 @@ var config = {
       debug: false,
     },
   },
-  scene: [Preloads, MainMenu, Custom, Play, Opcion, Ayuda, Salir], // Listado de todas las escenas del juego, en orden
+  scene: [Preloads, MainMenu, Creditos, Play, Opcion, Ayuda], // Listado de todas las escenas del juego, en orden
   // La primera escena es con la cual empieza el juego
 };
 

@@ -8,29 +8,46 @@ export class Preloads extends Phaser.Scene {
   }
 
   preload() {
+    //Sonidos
     this.load.audio('dado','public/assets/sounds/Dado.mp3');
+    this.load.audio('saltotesonido','public/assets/sounds/saltotesonido.mp3');
+    this.load.audio('sonidorana','public/assets/sounds/sonidorana.mp3');
+    this.load.audio('tematab','public/assets/sounds/CancionTablero.mp3');
+    this.load.audio('temamen','public/assets/sounds/CancionMenu.mp3');
+    this.load.audio('victoria','public/assets/sounds/victoria.mp3');
+    this.load.audio('alan','public/assets/sounds/alansonido.mp3');
+    this.load.audio('cabra','public/assets/sounds/cabrasonido.mp3');
+    this.load.audio('juan','public/assets/sounds/juansonido.mp3');
+    //Fotos
+    this.load.image('alanpp','public/assets/images/alanpp.png');
+    this.load.image('juanpp','public/assets/images/juanpp.png');
+    this.load.image('cabrapp','public/assets/images/cabrapp.png');
+    //Backgrounds
     this.load.image('carga_bg','public/assets/images/carga_bg.png');
     this.load.image('menu_bg','public/assets/images/menu_bg.png');
-    //Por ahora dejamos custom de lado
-    //this.load.image('custom_bg','public/assets/images/custom_bg.png');
+    this.load.image('custom_bg','public/assets/images/custom_bg.png');
+    this.load.image('tablero_bg','public/assets/images/tablero_bg.png');
+    this.load.image('tablero_blur','public/assets/images/tablero_blur.png');
+    this.load.image('ayuda_bg','public/assets/images/ayuda_bg.png');
+    //Casilla y pjs
     this.load.image('sapo','public/assets/images/sapojg1.png');
     this.load.image('sapo2','public/assets/images/sapojg2.png');
     this.load.image('sapo3','public/assets/images/sapojg3.png');
     this.load.image('vacio','public/assets/images/casillerovacio.png') //Vacio tuki
-    this.load.image('tablero_bg','public/assets/images/tablero_bg.png');
-    this.load.image('tablero_blur','public/assets/images/tablero_blur.png');
-    this.load.image('ayuda_bg','public/assets/images/ayuda_bg.png');
     //Botones
     this.load.image('ayuda','public/assets/images/ayuda.png');
     this.load.image('play','public/assets/images/play.png');
+    this.load.image('volver','public/assets/images/volver.png');
     this.load.image('config','public/assets/images/configuracion.png');
     this.load.image('credit','public/assets/images/creditos.png');
     this.load.image('saltote','public/assets/images/saltote.png');
     this.load.image('dadoicon','public/assets/images/dado.png');
+    this.load.image('tuerca','public/assets/images/tuerca.png');
   }
 
   create() {
     // Se agrega img de fondo
+    let musica = this.sound.add('temamen',{loop: true})
     this.add.image(this.cameras.main.centerX,
     this.cameras.main.centerY,
        'carga_bg').setScale(0.5);
@@ -47,6 +64,7 @@ export class Preloads extends Phaser.Scene {
     // Se agrega un timer y luego a la escena del menú principal
     setTimeout(() => {
       this.scene.start("MainMenu");
+      musica.play();
     }, 3000);
   }
 }

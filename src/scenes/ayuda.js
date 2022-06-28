@@ -1,22 +1,25 @@
 import Button from "../js/button.js";
-var score;
 // Clase Ayuda, donde se cambia el idioma del juego
 export class Ayuda extends Phaser.Scene {
     constructor() {
         // Se asigna una key para despues poder llamar a la escena
         super("Ayuda")
     }
-
+    preload(){
+        this.load.tilemapTiledJSON("tablero", "public/assets/tilemaps/tablero.json");
+    }
     create() {
         // Boton para volver a la escena de Play
+        const tablero = this.make.tilemap({ key: "tablero"});
+        let spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Ayuda'));
+    
         this.add.image(this.cameras.main.centerX,
             this.cameras.main.centerY,
-                 'ayuda_bg').setScale(2);
-        const boton = new Button(this.cameras.main.centerX + this.cameras.main.centerX/1.2,
-        this.cameras.main.centerY + this.cameras.main.centerY/1.2,
+                 'ayuda_bg').setScale(0.5);
+        const boton = new Button(spawnPoint.x, spawnPoint.y,
               'ayuda', this, () => {
             // Instrucción volver a la escena Play
-            this.scene.switch("Play"), { score: score };
+            this.scene.switch("Play");
         }); 
     }
 }
