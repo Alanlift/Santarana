@@ -174,7 +174,6 @@ export class Play extends Phaser.Scene {
             gameOver = true;
           } else {
             XD = 1;
-            console.log(XD);
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
             Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
           }
@@ -215,7 +214,6 @@ export class Play extends Phaser.Scene {
               scorejg3-=20;
             }
             XD = 1;
-            console.log(XD);
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
             Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
             this.turno();
@@ -288,19 +286,15 @@ export class Play extends Phaser.Scene {
           scorejg1 += 10;
           scoreac = scorejg2;
           XD +=1;
-          console.log('Rojo 1');
         } else if (CTurno == 'Jugador 2') {
           scorejg2 += 10;
           scoreac = scorejg3;
           XD +=1;
-          console.log('Rojo 2');
         } else if (CTurno == 'Jugador 3'){
           scorejg3 += 10;
           scoreac = scorejg1;
           XD +=1;
-          console.log('Rojo 3');
         }
-        console.log(scoreac)
         this.turno();
         scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
       }
@@ -313,19 +307,15 @@ export class Play extends Phaser.Scene {
           scorejg1 += 5;
           scoreac = scorejg2;
           XD +=1;
-          console.log('V 1');
         } else if (CTurno == 'Jugador 2') {
           scorejg2 += 5;
           scoreac = scorejg3;
           XD +=1;
-          console.log('V 2');
         } else if (CTurno == 'Jugador 3'){
           scorejg3 += 5;
           scoreac = scorejg1;
           XD +=1;
-          console.log('V 3');
         }
-        console.log(scoreac);
         this.turno();
         scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
       }
@@ -338,19 +328,15 @@ export class Play extends Phaser.Scene {
           scorejg1 -= 10;
           scoreac = scorejg2;
           XD +=1;
-          console.log('A 1');
         } else if (CTurno == 'Jugador 2') {
           scorejg2 -= 10;
           scoreac = scorejg3;
           XD +=1;
-          console.log('A 2');
         } else if (CTurno == 'Jugador 3'){
           scorejg3 -= 10;
           scoreac = scorejg1;
           XD +=1;
-          console.log('A 3');
         }
-        console.log(scoreac);
         this.turno();
         scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
       }
