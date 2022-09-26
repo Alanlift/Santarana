@@ -1,10 +1,10 @@
 // Clase Boton, para no repetir tanto codigo
 class Button {
-    constructor(x, y, label, scene, callback) {
-        const button = scene.add.image(x, y, label)
+    constructor(x, y, img, scene, callback) {
+            scene.add.image(x, y, img)
             .setInteractive({ useHandCursor: true })
-            .on('pointerdown', () => callback());
+            .on('pointerdown', () => callback())
+        }
     }
-}
 
 export default Button;

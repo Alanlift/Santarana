@@ -1,9 +1,6 @@
 import Button from "../js/button.js";
 import ButtonFont from "../js/buttonfont.js";
 //Variables de la escena
-var player1;
-var player2;
-var player3;
 var JTurno; //Para que funcione el movimiento
 var CTurno; //Para que funcione el score
 var proxcas;
@@ -59,16 +56,16 @@ export class Play extends Phaser.Scene {
 
     var spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo1");
     // The player1 and its settings
-    player1 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
+    let player1 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo");
     spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo2");
-    player2 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo2");
+    let player2 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo2");
     spawnPoint = tablero.findObject("Players", (obj) => obj.name === "sapo3");
-    player3 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo3");
+    let player3 = this.physics.add.image(spawnPoint.x, spawnPoint.y, "sapo3");
     player1.setCollideWorldBounds(true);
     player2.setCollideWorldBounds(true);
     player3.setCollideWorldBounds(true);
-    var Players = [player1, player2, player3];
-    
+    let Players = [player1, player2, player3];
+    console.log(Players);
     
     //Parte físicas de casillas
     CasRojas = this.physics.add.group();
@@ -76,7 +73,7 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasRojas": {
-          var Rojas = CasRojas.create(x, y, "vacio");
+          let Rojas = CasRojas.create(x, y, "vacio");
           Rojas.setBounceY(0);
           Rojas.set
           break;
@@ -89,7 +86,7 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasVerdes": {
-          var Verde = CasVerdes.create(x, y, "vacio");
+          let Verde = CasVerdes.create(x, y, "vacio");
           Verde.setBounceY(0);
           break;
         }
@@ -101,24 +98,25 @@ export class Play extends Phaser.Scene {
       const { x = 0, y = 0, name, type } = objData;
       switch (name) {
         case "CasAmar": {
-          var Amar = CasAmar.create(x, y, "vacio");
+          let Amar = CasAmar.create(x, y, "vacio");
           Amar.setBounceY(0);
           break;
         }
       }
     });
-
-    
+    CasRojas.name = "CasRojas";
+    CasVerdes.name = "CasVerdes";
+    CasAmar.name = "CasAmar";
+    let Casillas = [CasRojas, CasVerdes, CasAmar];
     //Agregamos collider con el tablero
     this.physics.add.collider(Players, worldLayer);
-    this.physics.add.collider(CasRojas, worldLayer);
-    this.physics.add.collider(CasVerdes, worldLayer);
-    this.physics.add.collider(CasAmar, worldLayer);
+    this.physics.add.collider(Casillas, worldLayer);
 
     //Agregamos overlap las casillas
-    this.physics.add.overlap(Players, CasRojas, this.roja, null, this);
-    this.physics.add.overlap(Players, CasVerdes, this.verde, null, this);
-    this.physics.add.overlap(Players, CasAmar, this.amarilla, null, this);
+    //this.physics.add.overlap(Players, Casillas, this.Casilla(proxcas), null, this);
+    //this.physics.add.overlap(Players, CasRojas, this.roja, null, this);
+    //this.physics.add.overlap(Players, CasVerdes, this.verde, null, this);
+    //this.physics.add.overlap(Players, CasAmar, this.amarilla, null, this);
     
 
     JTurno = 0;
@@ -130,12 +128,13 @@ export class Play extends Phaser.Scene {
     this.JugadorTurno("Jugador 1");
 
     spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Dado'));
-    const BotonDado = new Button( //Lanzar Dado
+    let BotonDado = new Button( //Lanzar Dado
       spawnPoint.x,
       spawnPoint.y,
       "dadoicon",
       this,
       () => {
+          BotonDado.inputEnabled = false;
           sonid4.play();
           sonidorana.play();
           var randomNumber = Math.floor(Math.random()*4) + 1;
@@ -176,11 +175,16 @@ export class Play extends Phaser.Scene {
             XD = 1;
             var casPoint = tablero.findObject("Objetos", (obj) => obj.type == (proxcas));
             Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
+            this.Casilla(proxcas)
+            this.Carta(proxcas);
+            setTimeout(() => {
+              BotonDado.inputEnabled = true;
+            }, 3000);
           }
       });
       
       spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Saltote'));
-      const BotonSalto = new Button( //Lanzar saltote
+      let BotonSalto = new Button( //Lanzar saltote
       spawnPoint.x,
       spawnPoint.y,
       'saltote',
@@ -280,6 +284,16 @@ export class Play extends Phaser.Scene {
     }
   }
     //Funciones
+    Casilla(proxcas){
+        if (proxcas == 1 || proxcas == 5 || proxcas == 9 || proxcas == 13 || proxcas == 19 || proxcas == 24  || proxcas == 27 || proxcas == 28 || proxcas == 31 || proxcas == 35){
+          this.roja();
+        } else if (proxcas == 2 || proxcas == 4 || proxcas == 7 || proxcas == 11 || proxcas == 15 || proxcas == 17 || proxcas == 21 || proxcas == 23 || proxcas == 25 || proxcas == 30 || proxcas == 33 || proxcas == 37){
+          this.verde();
+        } else {
+          this.amarilla();
+        }
+      }
+
     roja(){
       if (XD == 1) {
         if (CTurno == 'Jugador 1') {
@@ -380,6 +394,14 @@ export class Play extends Phaser.Scene {
           fill: '#000000', 
           fontFamily: 'Arial'
       });
+    }
+    Carta(NCarta){
+      let Carta = this.add.image(this.cameras.main.centerX,
+        this.cameras.main.centerY, NCarta).setScale(0.5);
+        Carta.visible = true;
+        setTimeout(() => {
+          Carta.visible = false;
+        }, 3000);
     }
     Ganador(Jugador){
       this.add.text(this.cameras.main.centerX*0.5, this.cameras.main.centerY, Jugador.toUpperCase())
