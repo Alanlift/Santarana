@@ -10,7 +10,7 @@ export class MainMenu extends Phaser.Scene {
         // Boton para comenzar a personalizar
         this.add.image(this.cameras.main.centerX,
         this.cameras.main.centerY,
-             'menu_bg').setScale(1);
+             'menu_bg').setScale(1.2);
         new Button(this.cameras.main.centerX - this.cameras.main.centerX/1.7, //Boton Config
              this.cameras.main.centerY + this.cameras.main.centerY/3, 'config', this,
               () => {

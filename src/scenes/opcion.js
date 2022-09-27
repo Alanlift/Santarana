@@ -12,7 +12,7 @@ export class Opcion extends Phaser.Scene {
         // Boton para volver a la escena de Play
         this.add.image(this.cameras.main.centerX,
             this.cameras.main.centerY,
-               'tablero_blur').setScale(0.75);
+               'tablero_blur').setScale(0.9);
         new Button(this.cameras.main.centerX*1.3, //Salir
              this.cameras.main.centerY + this.cameras.main.centerY/2.2,
               'Si', this, () => {
