@@ -231,9 +231,9 @@ export class Play extends Phaser.Scene {
       scorejg3 = 0;
       scoreac = 0;
       spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Score'));
-      this.add.image(spawnPoint.x, spawnPoint.y, 'ContMoscas').setScale(0.16);
-      scoretext = this.add.text(spawnPoint.x*1.04, spawnPoint.y*0.65, "2", { //Texto Score
-        fontSize: "32px",
+      this.add.image(spawnPoint.x, spawnPoint.y, 'ContMoscas').setScale(0.2);
+      scoretext = this.add.text(spawnPoint.x*1.05, spawnPoint.y*0.60, "2", { //Texto Score
+        fontSize: "36px",
         fill: "#000000",
         fontFamily: 'Arial'
       });
@@ -359,13 +359,13 @@ export class Play extends Phaser.Scene {
 
     //Textos
     JugadorTurno(Turno){
-      this.add.image(this.cameras.main.centerX*1.02, this.cameras.main.centerY-this.cameras.main.centerY/1.15, Turno);
+      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY-this.cameras.main.centerY/1.15, Turno).setScale(1.5);
       if (Turno == 'Jugador 1') {
-        this.add.image(this.cameras.main.centerX*1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo").setScale(0.5);
+        this.add.image(this.cameras.main.centerX*1.11, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo").setScale(0.6);
       } else if (Turno == 'Jugador 2') {
-        this.add.image(this.cameras.main.centerX*1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo2").setScale(0.5);
+        this.add.image(this.cameras.main.centerX*1.11, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo2").setScale(0.6);
       } else if (Turno == 'Jugador 3'){
-        this.add.image(this.cameras.main.centerX*1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo3").setScale(0.5);
+        this.add.image(this.cameras.main.centerX*1.11, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo3").setScale(0.6);
       }
       
     }
