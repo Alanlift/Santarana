@@ -15,7 +15,7 @@ export class Ayuda extends Phaser.Scene {
     
         this.add.image(this.cameras.main.centerX,
             this.cameras.main.centerY,
-                 'ayuda_bg').setScale(0.5);
+                 'ayuda_bg');
         const boton = new Button(spawnPoint.x, spawnPoint.y,
               'ayuda', this, () => {
             // Instrucción volver a la escena Play

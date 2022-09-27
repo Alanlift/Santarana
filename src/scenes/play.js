@@ -153,8 +153,8 @@ export class Play extends Phaser.Scene {
             proxcas = proxcasjg3;
           }
           
-          if (proxcas>=40) {
-            var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "40");
+          if (proxcas>=41) {
+            var casPoint = tablero.findObject("Objetos", (obj) => obj.type === "41");
             Players[JTurno].setPosition(casPoint.x+1, casPoint.y+1)
             BotonDado.inputEnabled = false;
             BotonSalto.inputEnabled = false;
@@ -231,22 +231,12 @@ export class Play extends Phaser.Scene {
       scorejg3 = 0;
       scoreac = 0;
       spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Score'));
-      scoretext = this.add.text(spawnPoint.x, spawnPoint.y, "Moscas:"+"\n"+ "🦟 ", { //Texto Score
+      this.add.image(spawnPoint.x, spawnPoint.y, 'ContMoscas').setScale(0.16);
+      scoretext = this.add.text(spawnPoint.x*1.04, spawnPoint.y*0.65, "2", { //Texto Score
         fontSize: "32px",
         fill: "#000000",
-        backgroundColor: '#71af45',
         fontFamily: 'Arial'
       });
-      
-      spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Lanzar'));
-      this.add.text(spawnPoint.x, spawnPoint.y, "LANZAR", { //Texto Lanzar
-        fontSize: "32px",
-        fill: "#000000",
-        backgroundColor: '#71af45',
-        fontFamily: 'Arial'
-      });
-
-
 
     new Button( //Opciones
       this.cameras.main.centerX/8,
@@ -310,13 +300,12 @@ export class Play extends Phaser.Scene {
           XD +=1;
         }
         this.turno();
-        scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
+        scoretext.setText(scoreac);
       }
     }
 
     verde(){
       if (XD == 1) {
-        scoretext.setText("⠀⠀⠀⠀⠀⠀"+ "\n" + "⠀⠀⠀⠀⠀⠀");
         if (CTurno == 'Jugador 1') {
           scorejg1 += 5;
           scoreac = scorejg2;
@@ -331,13 +320,12 @@ export class Play extends Phaser.Scene {
           XD +=1;
         }
         this.turno();
-        scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
+        scoretext.setText(scoreac);
       }
     }
 
     amarilla(){
       if (XD == 1) {
-        scoretext.setText("⠀⠀⠀⠀⠀⠀"+ "\n" + "⠀⠀⠀⠀⠀⠀");
         if (CTurno == 'Jugador 1') {
           scorejg1 -= 10;
           scoreac = scorejg2;
@@ -352,7 +340,7 @@ export class Play extends Phaser.Scene {
           XD +=1;
         }
         this.turno();
-        scoretext.setText("Moscas:"+"\n"+"🦟 " + scoreac);
+        scoretext.setText(scoreac);
       }
     }
 
@@ -371,12 +359,7 @@ export class Play extends Phaser.Scene {
 
     //Textos
     JugadorTurno(Turno){
-      this.add.text(this.cameras.main.centerX/1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.01, "Turno:" +"\n" + Turno)
-      .setStyle({ 
-          backgroundColor: '#71af45', fontSize: '35px', 
-          fill: '#000000', 
-          fontFamily: 'Arial'
-      });
+      this.add.image(this.cameras.main.centerX*1.02, this.cameras.main.centerY-this.cameras.main.centerY/1.15, Turno);
       if (Turno == 'Jugador 1') {
         this.add.image(this.cameras.main.centerX*1.10, this.cameras.main.centerY-this.cameras.main.centerY/1.08, "sapo").setScale(0.5);
       } else if (Turno == 'Jugador 2') {
