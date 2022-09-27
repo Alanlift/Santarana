@@ -43,6 +43,11 @@ export class Preloads extends Phaser.Scene {
     this.load.image('saltote','public/assets/images/saltote.png');
     this.load.image('dadoicon','public/assets/images/dado.png');
     this.load.image('tuerca','public/assets/images/tuerca.png');
+    //HUD
+    this.load.image('Jugador 1','public/assets/images/turno1.png');
+    this.load.image('Jugador 2','public/assets/images/turno2.png');
+    this.load.image('Jugador 3','public/assets/images/turno3.png');
+    this.load.image('ContMoscas','public/assets/images/moscas.png');
     //Cartas
     this.load.image('1','public/assets/images/cartas/Roja1.png')
     this.load.image('2','public/assets/images/cartas/Verde1.png')

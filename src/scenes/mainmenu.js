@@ -17,8 +17,8 @@ export class MainMenu extends Phaser.Scene {
             // Instrucción para pasar a la escena Custom
             this.scene.switch("Creditos");
         });
-        new Button(this.cameras.main.centerX/1.05, //Boton Play
-             this.cameras.main.centerY + this.cameras.main.centerY/6, 'play', this, () => {
+        new Button(this.cameras.main.centerX, //Boton Play
+             this.cameras.main.centerY + this.cameras.main.centerY/3, 'play', this, () => {
             // Instrucción para pasar a la escena Custom
             this.sound.stopAll();
             this.scene.start("Play");
