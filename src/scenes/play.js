@@ -232,7 +232,7 @@ export class Play extends Phaser.Scene {
       scoreac = 0;
       spawnPoint = tablero.findObject("Botones", (obj) => obj.name == ('Score'));
       this.add.image(spawnPoint.x, spawnPoint.y, 'ContMoscas').setScale(0.2);
-      scoretext = this.add.text(spawnPoint.x*1.05, spawnPoint.y*0.60, "2", { //Texto Score
+      scoretext = this.add.text(spawnPoint.x*1.05, spawnPoint.y*0.60, "", { //Texto Score
         fontSize: "36px",
         fill: "#000000",
         fontFamily: 'Arial'
@@ -275,9 +275,9 @@ export class Play extends Phaser.Scene {
   }
     //Funciones
     Casilla(proxcas){
-        if (proxcas == 1 || proxcas == 5 || proxcas == 9 || proxcas == 13 || proxcas == 19 || proxcas == 24  || proxcas == 27 || proxcas == 28 || proxcas == 31 || proxcas == 35){
+        if (proxcas == 3 || proxcas == 6 || proxcas == 9 || proxcas == 12 || proxcas == 15 || proxcas == 18  || proxcas == 21 || proxcas == 24 || proxcas == 27 || proxcas == 30 || proxcas == 33 || proxcas == 36 || proxcas == 39){
           this.roja();
-        } else if (proxcas == 2 || proxcas == 4 || proxcas == 7 || proxcas == 11 || proxcas == 15 || proxcas == 17 || proxcas == 21 || proxcas == 23 || proxcas == 25 || proxcas == 30 || proxcas == 33 || proxcas == 37){
+        } else if (proxcas == 1 || proxcas == 4 || proxcas == 7 || proxcas == 10 || proxcas == 13 || proxcas == 16 || proxcas == 19 || proxcas == 22 || proxcas == 25 || proxcas == 28 || proxcas == 31 || proxcas == 34 || proxcas == 37 || proxcas == 40){
           this.verde();
         } else {
           this.amarilla();
